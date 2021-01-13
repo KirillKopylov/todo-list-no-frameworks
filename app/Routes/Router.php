@@ -23,6 +23,7 @@ class Router
      */
     public function initRoutes()
     {
+        $this->router->controller('/', 'App\Controllers\IndexController');
     }
 
     /**

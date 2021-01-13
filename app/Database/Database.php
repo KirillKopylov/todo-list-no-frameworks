@@ -28,6 +28,9 @@ class Database
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',
         ];
+        \Illuminate\Pagination\Paginator::currentPageResolver(function ($pageName = 'page') {
+            return (int) ($_GET[$pageName] ?? 1);
+        });
     }
 
     /**
