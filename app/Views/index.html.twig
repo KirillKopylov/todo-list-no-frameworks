@@ -14,18 +14,25 @@
                     <th class="text-center">Дата</th>
                     <th class="text-center">Создан</th>
                     <th class="text-center">Обновлён</th>
+                    <th class="text-center">Выполнено</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for task in tasks['data'] %}
+                    {% set taskId = task['id'] %}
                     <tr>
-                        <td>{{ task['id'] }}</td>
-                        <td>{{ task['title'] }}</td>
+                        <td>{{ taskId }}</td>
+                        <td><a href="/tasks/{{ taskId }}">{{ task['title'] }}</a></td>
                         <td>{{ task['is_done'] ? '+' : '-' }}</td>
                         <td>{{ task['cat_name'] }}</td>
                         <td>{{ task['task_date'] }}</td>
                         <td>{{ task['created_at'] }}</td>
                         <td>{{ task['updated_at'] }}</td>
+                        {% if task['is_done'] %}
+                            <td><a style="color: gray; pointer-events: none">Выполнено</a></td>
+                        {% else %}
+                            <td><a href="/set-as-done/{{ taskId }}">Выполнено</a></td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -33,9 +40,9 @@
         </div>
         <ul class="pagination">
             {% for page in tasks['links'] %}
-            <li class="page-item">
-                <a class="page-link" href="{{ page['url'] }}" tabindex="-1">{{ page['label'] }}</a>
-            </li>
+                <li class="page-item">
+                    <a class="page-link" href="{{ page['url'] }}" tabindex="-1">{{ page['label'] }}</a>
+                </li>
             {% endfor %}
         </ul>
     </div>
