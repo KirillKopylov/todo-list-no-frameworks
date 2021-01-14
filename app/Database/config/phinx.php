@@ -6,7 +6,7 @@
 
 return [
     'paths' => [
-        'migrations' => __DIR__ . '/Migrations'
+        'migrations' => getcwd() . '/app/Database/Migrations'
     ],
     'migration_base_class' => 'App\Database\Migrations\MigrationBase',
     'environments' => [

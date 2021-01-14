@@ -12,14 +12,13 @@ class TaskController extends AbstractController
 
     public function __construct()
     {
-        parent::__construct();
         $this->taskService = new TaskService;
     }
 
     public function getIndex(): string
     {
         $tasks = $this->taskService->getTasks();
-        return $this->render('index.html.twig', ['tasks' => $tasks->toArray()]);
+        return $this->render('index.html.twig', ['tasks' => $tasks]);
     }
 
     public function getTasks($id): string
@@ -31,11 +30,6 @@ class TaskController extends AbstractController
     public function getSetAsDone($id): void
     {
         $this->taskService->setAsDone($id);
-        $previousPage = $_SERVER['HTTP_REFERER'];
-        if ($previousPage) {
-            header("Location: $previousPage");
-        } else {
-            header('Location: /');
-        }
+        $this->redirectBack();
     }
 }

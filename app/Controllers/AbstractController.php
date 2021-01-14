@@ -4,28 +4,23 @@
 namespace App\Controllers;
 
 
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
-use Twig\Loader\FilesystemLoader;
-use Twig\Environment;
+use App\Views\Engines\Twig;
 
 abstract class AbstractController
 {
-    private Environment $twig;
-
-    public function __construct()
+    protected function render(string $view, array $data = []): string
     {
-        $loader = new FilesystemLoader(getcwd() . '/app/Views');
-        $this->twig = new Environment($loader);
+        $twig = new Twig;
+        return $twig->render($view, $data);
     }
 
-    public function render(string $view, array $data = []): string
+    protected function redirectBack()
     {
-        try {
-            return $this->twig->render($view, $data);
-        } catch (LoaderError | RuntimeError | SyntaxError $e) {
-            return $e->getMessage();
+        $previousPage = $_SERVER['HTTP_REFERER'];
+        if ($previousPage) {
+            header("Location: $previousPage");
+        } else {
+            header('Location: /');
         }
     }
 }

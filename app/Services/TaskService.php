@@ -5,14 +5,13 @@ namespace App\Services;
 
 
 use App\Models\Task;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Phroute\Phroute\Exception\HttpRouteNotFoundException;
 
 class TaskService
 {
-    public function getTasks(): LengthAwarePaginator
+    public function getTasks(): array
     {
-        return Task::where('is_done', false)->paginate();
+        return Task::where('is_done', false)->paginate()->toArray();
     }
 
     public function getTask($id): Task
